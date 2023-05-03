@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+      docker: 19
+  build:
+    commands:
+      - echo Build started on `date`
+      - mvn clean package
+
+artifacts:
+  files:
+    - service/target/*.jar
+  discard-paths: yes
+
+cache:
+  paths:
+    - '/root/.m2/**/*'
