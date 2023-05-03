@@ -20,7 +20,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
 
 # =================================
-# = Spring
+# = Logging
 # =================================
 logging:
   level:
