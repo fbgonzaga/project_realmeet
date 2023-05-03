@@ -4,11 +4,7 @@ phases:
   install:
     runtime-versions:
       java: corretto17
-<<<<<<< HEAD
       docker: 20
-=======
-      docker: 19
->>>>>>> b76b4c6 (Inclusao do arquivo buildspec.xml)
   build:
     commands:
       - echo Build started on `date`
