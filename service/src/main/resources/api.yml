@@ -7,35 +7,36 @@ info:
 servers:
   - url: 'http://localhost:8080'
 paths:
-  /rooms:
+  /rooms/{id}:
     get:
-      summary: 'Return rooms'
-      operationId: listRooms
+      summary: 'Return a room by ID'
+      operationId: getRoom
       tags:
         - room
       parameters:
         - name: id
-          in: query
+          in: path
+          required: true
           description: ID of the room
           schema:
             type: integer
             format: int64
       responses:
-        '200':
+        200:
           description: 'OK'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Room'
-        default:
-          description: Unexpected error
+                $ref: '#/components/schemas/RoomDTO'
+        404:
+          description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ResponseError'
 components:
   schemas:
-    Room:
+    RoomDTO:
       type: object
       properties:
         id:
@@ -43,7 +44,9 @@ components:
           format: int64
         name:
           type: string
-    Error:
+        seats:
+          type: integer
+    ResponseError:
       type: object
       required:
         - code
@@ -52,6 +55,8 @@ components:
         code:
           type: integer
           format: int32
+        status:
+          type: string
         message:
           type: string
   securitySchemes:
