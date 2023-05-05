@@ -37,12 +37,17 @@ public class Room {
      * Esta classe gerara objetos imutaveis,
      * evitando problemas de concorrencia.
      * Por isso o construtor privado.
+     *
+     * @param id
+     * @param name
+     * @param seats
+     * @param active
      */
-    private Room(Builder builder) {
-        id = builder.id;
-        name = builder.name;
-        seats = builder.seats;
-        active = builder.active;
+    private Room(Long id, String name, Integer seats, Boolean active) {
+        this.id = id;
+        this.name = name;
+        this.seats = seats;
+        this.active = active;
     }
 
     @PrePersist
@@ -119,7 +124,7 @@ public class Room {
         }
 
         public Room build() {
-            return new Room(this);
+            return new Room(id, name, seats, active);
         }
     }
 }

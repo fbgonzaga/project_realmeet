@@ -1,12 +1,9 @@
 package br.com.sw2you.realmeet.controller;
 
-import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import br.com.sw2you.realmeet.api.facade.RoomsApi;
-import br.com.sw2you.realmeet.api.model.CreateRoomDTO;
 import br.com.sw2you.realmeet.api.model.RoomDTO;
-import br.com.sw2you.realmeet.api.model.UpdateRoomDTO;
 import br.com.sw2you.realmeet.service.RoomService;
 import br.com.sw2you.realmeet.util.ResponseEntityUtils;
 import java.util.concurrent.CompletableFuture;
@@ -25,25 +22,8 @@ public class RoomController implements RoomsApi {
     }
 
     @Override
-    public CompletableFuture<ResponseEntity<RoomDTO>> getRoom(String apiKey, Long id) {
+    public CompletableFuture<ResponseEntity<RoomDTO>> getRoom(Long id) {
+        //        return supplyAsync(() -> ResponseEntity.ok(roomService.getRoom(id)));
         return supplyAsync(() -> roomService.getRoom(id), controllersExecutor).thenApply(ResponseEntityUtils::ok);
-    }
-
-    @Override
-    public CompletableFuture<ResponseEntity<RoomDTO>> createRoom(String apiKey, CreateRoomDTO createRoomDTO) {
-        return supplyAsync(() -> roomService.createRoom(createRoomDTO), controllersExecutor)
-            .thenApply(ResponseEntityUtils::created);
-    }
-
-    @Override
-    public CompletableFuture<ResponseEntity<Void>> deleteRoom(String apiKey, Long id) {
-        return runAsync(() -> roomService.deleteRoom(id), controllersExecutor)
-            .thenApply(ResponseEntityUtils::noContent);
-    }
-
-    @Override
-    public CompletableFuture<ResponseEntity<Void>> updateRoom(String apiKey, Long id, UpdateRoomDTO updateRoomDTO) {
-        return runAsync(() -> roomService.updateRoom(id, updateRoomDTO), controllersExecutor)
-            .thenApply(ResponseEntityUtils::noContent);
     }
 }
