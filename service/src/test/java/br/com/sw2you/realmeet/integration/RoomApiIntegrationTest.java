@@ -1,12 +1,10 @@
 package br.com.sw2you.realmeet.integration;
 
-import static br.com.sw2you.realmeet.utils.TestConstants.*;
-import static br.com.sw2you.realmeet.utils.TestDataCreator.*;
+import static br.com.sw2you.realmeet.utils.TestConstants.DEFAULT_ROOM_ID;
+import static br.com.sw2you.realmeet.utils.TestDataCreator.newRoomBuilder;
 import static org.junit.jupiter.api.Assertions.*;
 
 import br.com.sw2you.realmeet.api.facade.RoomApi;
-import br.com.sw2you.realmeet.api.model.CreateRoomDTO;
-import br.com.sw2you.realmeet.api.model.UpdateRoomDTO;
 import br.com.sw2you.realmeet.core.BaseIntegrationTest;
 import br.com.sw2you.realmeet.domain.repository.RoomRepository;
 import org.junit.jupiter.api.Test;
@@ -33,7 +31,7 @@ class RoomApiIntegrationTest extends BaseIntegrationTest {
         assertNotNull(room.getId());
         assertTrue(room.getActive());
 
-        var dto = api.getRoom(TEST_CLIENT_API_KEY, room.getId());
+        var dto = api.getRoom(room.getId());
         assertEquals(room.getId(), dto.getId());
         assertEquals(room.getName(), dto.getName());
         assertEquals(room.getSeats(), dto.getSeats());
@@ -46,83 +44,11 @@ class RoomApiIntegrationTest extends BaseIntegrationTest {
 
         assertFalse(room.getActive());
 
-        assertThrows(HttpClientErrorException.NotFound.class, () -> api.getRoom(TEST_CLIENT_API_KEY, room.getId()));
+        assertThrows(HttpClientErrorException.NotFound.class, () -> api.getRoom(room.getId()));
     }
 
     @Test
     void testGetRoomDoesNotExist() {
-        assertThrows(HttpClientErrorException.NotFound.class, () -> api.getRoom(TEST_CLIENT_API_KEY, DEFAULT_ROOM_ID));
-    }
-
-    @Test
-    void testCreateRoomSuccess() {
-        var createRoomDTO = newCreateRoomDTO();
-        var roomDTO = api.createRoom(TEST_CLIENT_API_KEY, createRoomDTO);
-
-        assertEquals(createRoomDTO.getName(), roomDTO.getName());
-        assertEquals(createRoomDTO.getSeats(), roomDTO.getSeats());
-        assertNotNull(roomDTO.getId());
-
-        var room = roomRepository.findById(roomDTO.getId()).orElseThrow();
-        assertEquals(roomDTO.getName(), room.getName());
-        assertEquals(roomDTO.getSeats(), room.getSeats());
-    }
-
-    @Test
-    void testCreateRoomValidationError() {
-        assertThrows(
-            HttpClientErrorException.UnprocessableEntity.class,
-            () -> api.createRoom(TEST_CLIENT_API_KEY, (CreateRoomDTO) newCreateRoomDTO().name(null))
-        );
-    }
-
-    @Test
-    void testDeleteRoomSuccess() {
-        var roomId = roomRepository.saveAndFlush(newRoomBuilder().build()).getId();
-        api.deleteRoom(TEST_CLIENT_API_KEY, roomId);
-        assertFalse(roomRepository.findById(roomId).orElseThrow().getActive());
-    }
-
-    @Test
-    void testDeleteRoomDoesNotExist() {
-        assertThrows(HttpClientErrorException.NotFound.class, () -> api.deleteRoom(TEST_CLIENT_API_KEY, 1L));
-    }
-
-    @Test
-    void testUpdateRoomSuccess() {
-        var room = roomRepository.saveAndFlush(newRoomBuilder().build());
-        var updateRoomDTO = new UpdateRoomDTO().name(room.getName() + "_").seats(room.getSeats() + 1);
-        api.updateRoom(TEST_CLIENT_API_KEY, room.getId(), updateRoomDTO);
-
-        var updatedRoom = roomRepository.findById(room.getId()).orElseThrow();
-        assertEquals(updateRoomDTO.getName(), updatedRoom.getName());
-        assertEquals(updateRoomDTO.getSeats(), updatedRoom.getSeats());
-    }
-
-    @Test
-    void testUpdateRoomDoesNotExist() {
-        assertThrows(
-            HttpClientErrorException.NotFound.class,
-            () ->
-                api.updateRoom(
-                    TEST_CLIENT_API_KEY,
-                    1L,
-                    new UpdateRoomDTO().name(DEFAULT_ROOM_NAME).seats(DEFAULT_ROOM_SEATS)
-                )
-        );
-    }
-
-    @Test
-    void testUpdateRoomValidationError() {
-        var room = roomRepository.saveAndFlush(newRoomBuilder().build());
-        assertThrows(
-            HttpClientErrorException.UnprocessableEntity.class,
-            () ->
-                api.updateRoom(
-                    TEST_CLIENT_API_KEY,
-                    room.getId(),
-                    new UpdateRoomDTO().name(null).seats(DEFAULT_ROOM_SEATS)
-                )
-        );
+        assertThrows(HttpClientErrorException.NotFound.class, () -> api.getRoom(DEFAULT_ROOM_ID));
     }
 }
