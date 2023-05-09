@@ -6,7 +6,6 @@ info:
     name: MIT
 servers:
   - url: 'http://localhost:8080'
-
 paths:
   /rooms/{id}:
     get:
@@ -15,7 +14,6 @@ paths:
       tags:
         - room
       parameters:
-        - $ref: '#/components/parameters/apiKey'
         - name: id
           in: path
           required: true
@@ -32,63 +30,16 @@ paths:
                 $ref: '#/components/schemas/RoomDTO'
         404:
           description: Not Found
-
-    delete:
-      summary: 'Deletes a room by ID'
-      operationId: deleteRoom
-      tags:
-        - room
-      parameters:
-        - $ref: '#/components/parameters/apiKey'
-        - name: id
-          in: path
-          required: true
-          description: ID of the room
-          schema:
-            type: integer
-            format: int64
-      responses:
-        204:
-          description: 'Deleted Successfully'
-        404:
-          description: Not Found
-
-    put:
-      summary: 'Updates a room by ID'
-      operationId: updateRoom
-      tags:
-        - room
-      parameters:
-        - $ref: '#/components/parameters/apiKey'
-        - name: id
-          in: path
-          required: true
-          description: ID of the room
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateRoomDTO'
-        required: true
-      responses:
-        204:
-          description: 'Updated Successfully'
-        404:
-          description: Not Found
-        422:
-          $ref: '#/components/responses/UnprocessableEntity'
-
-  /rooms:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /rooms/:
     post:
       summary: 'Creates a room'
       operationId: createRoom
       tags:
         - room
-      parameters:
-        - $ref: '#/components/parameters/apiKey'
       requestBody:
         content:
           application/json:
@@ -104,142 +55,15 @@ paths:
                 $ref: '#/components/schemas/RoomDTO'
         422:
           $ref: '#/components/responses/UnprocessableEntity'
-
-  /allocations:
-    get:
-      summary: 'Lists allocations'
-      operationId: listAllocations
-      tags:
-        - allocation
-      parameters:
-        - $ref: '#/components/parameters/apiKey'
-        - name: employeeEmail
-          in: query
-          description: Email of the employee
-          schema:
-            type: string
-        - name: roomId
-          in: query
-          description: Room id
-          schema:
-            type: integer
-            format: int64
-        - name: startAt
-          in: query
-          description: Allocation start time
-          schema:
-            type: string
-            format: date
-        - name: endAt
-          in: query
-          description: Allocation end time
-          schema:
-            type: string
-            format: date
-        - $ref: '#/components/parameters/orderBy'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/page'
-
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AllocationDTO'
-
-    post:
-      summary: 'Creates an allocation'
-      operationId: createAllocation
-      tags:
-        - allocation
-      parameters:
-        - $ref: '#/components/parameters/apiKey'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateAllocationDTO'
-        required: true
-      responses:
-        201:
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AllocationDTO'
-        404:
-          description: Not Found
-        422:
-          $ref: '#/components/responses/UnprocessableEntity'
-
-  /allocations/{id}:
-    delete:
-      summary: 'Deletes an allocation by ID'
-      operationId: deleteAllocation
-      tags:
-        - allocation
-      parameters:
-        - $ref: '#/components/parameters/apiKey'
-        - name: id
-          in: path
-          required: true
-          description: ID of the allocation
-          schema:
-            type: integer
-            format: int64
-      responses:
-        204:
-          description: 'Deleted Successfully'
-        404:
-          description: Not Found
-        422:
-          $ref: '#/components/responses/UnprocessableEntity'
-
-    put:
-      summary: 'Updates an allocation by ID'
-      operationId: updateAllocation
-      tags:
-        - allocation
-      parameters:
-        - $ref: '#/components/parameters/apiKey'
-        - name: id
-          in: path
-          required: true
-          description: ID of the allocation
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateAllocationDTO'
-        required: true
-      responses:
-        204:
-          description: 'Updated Successfully'
-        404:
-          description: Not Found
-        422:
-          $ref: '#/components/responses/UnprocessableEntity'
-
 components:
   schemas:
-    UpdateRoomDTO:
+    CreateRoomDTO:
       type: object
       properties:
         name:
           type: string
         seats:
           type: integer
-
-    CreateRoomDTO:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/UpdateRoomDTO'
 
     RoomDTO:
       type: object
@@ -251,93 +75,22 @@ components:
               type: integer
               format: int64
 
-    UpdateAllocationDTO:
-      type: object
-      properties:
-        subject:
-          type: string
-        startAt:
-          type: string
-          format: date-time
-        endAt:
-          type: string
-          format: date-time
-
-    CreateAllocationDTO:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/UpdateAllocationDTO'
-        - type: object
-          properties:
-            roomId:
-              type: integer
-              format: int64
-            employeeName:
-              type: string
-            employeeEmail:
-              type: string
-
-    AllocationDTO:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/CreateAllocationDTO'
-        - type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-
-
     ResponseError:
       type: object
       required:
-        - field
-        - errorCode
+        - code
+        - message
       properties:
-        field:
+        code:
+          type: integer
+          format: int32
+        status:
           type: string
-        errorCode:
+        message:
           type: string
-
   responses:
     UnprocessableEntity:
       description: The server understands the content type of the request entity but was unable to process the contained instructions.
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/ResponseError'
-  parameters:
-    orderBy:
-      name: orderBy
-      in: query
-      description: Field to order by
-      schema:
-        type: string
-
-    limit:
-      name: limit
-      in: query
-      description: Maximum number of returned records
-      schema:
-        type: integer
-
-    page:
-      name: page
-      in: query
-      description: The page of records to fetch (0 index based)
-      schema:
-        type: integer
-
-    apiKey:
-      name: api-key
-      in: header
-      description: The API key to authenticate the request
-      required: true
-      schema:
-        type: string
-
   securitySchemes:
     BasicAuth:
       type: http
