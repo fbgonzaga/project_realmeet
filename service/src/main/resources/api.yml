@@ -34,7 +34,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /rooms/:
+  /rooms:
     post:
       summary: 'Creates a room'
       operationId: createRoom

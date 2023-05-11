@@ -35,9 +35,7 @@ public class ValidationErrors implements Streamable<ValidationError> {
 
     @Override
     public String toString() {
-        return "ValidationErrors{" +
-                "validationErrorList=" + validationErrorList +
-                '}';
+        return "ValidationErrors{" + "validationErrorList=" + validationErrorList + '}';
     }
 
     @Override

@@ -34,9 +34,6 @@ public class ValidationError {
 
     @Override
     public String toString() {
-        return "ValidationError{" +
-                "field='" + field + '\'' +
-                ", errorCode='" + errorCode + '\'' +
-                '}';
+        return "ValidationError{" + "field='" + field + '\'' + ", errorCode='" + errorCode + '\'' + '}';
     }
 }
