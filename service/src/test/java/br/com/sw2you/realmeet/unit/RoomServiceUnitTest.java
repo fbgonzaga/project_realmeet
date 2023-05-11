@@ -25,6 +25,7 @@ class RoomServiceUnitTest extends BaseUnitTest {
 
     @Mock
     private RoomValidator roomValidator;
+
     @BeforeEach
     void setupEach() {
         victim = new RoomService(roomRepository, roomValidator, roomMapper());
