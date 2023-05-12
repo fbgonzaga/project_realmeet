@@ -1,20 +1,16 @@
 package br.com.sw2you.realmeet.controller;
 
-import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import br.com.sw2you.realmeet.api.facade.AllocationsApi;
-import br.com.sw2you.realmeet.api.facade.RoomsApi;
-import br.com.sw2you.realmeet.api.model.*;
+import br.com.sw2you.realmeet.api.model.AllocationDTO;
+import br.com.sw2you.realmeet.api.model.CreateAllocationDTO;
 import br.com.sw2you.realmeet.service.AllocationService;
-import br.com.sw2you.realmeet.service.RoomService;
 import br.com.sw2you.realmeet.util.ResponseEntityUtils;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.NativeWebRequest;
 
 @RestController
 public class AllocationController implements AllocationsApi {
@@ -22,8 +18,8 @@ public class AllocationController implements AllocationsApi {
     private final AllocationService allocationService;
 
     public AllocationController(Executor controllersExecutor, AllocationService allocationService) {
-        this.allocationService = allocationService;
         this.controllersExecutor = controllersExecutor;
+        this.allocationService = allocationService;
     }
 
     @Override
