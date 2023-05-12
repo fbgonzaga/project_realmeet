@@ -102,8 +102,10 @@ class RoomApiIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void testUpdateRoomDoesNotExist() {
-        assertThrows(HttpClientErrorException.NotFound.class,
-        () -> api.updateRoom(1L, new UpdateRoomDTO().name(DEFAULT_ROOM_NAME).seats(DEFAULT_ROOM_SEATS)));
+        assertThrows(
+            HttpClientErrorException.NotFound.class,
+            () -> api.updateRoom(1L, new UpdateRoomDTO().name(DEFAULT_ROOM_NAME).seats(DEFAULT_ROOM_SEATS))
+        );
     }
 
     @Test
