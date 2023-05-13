@@ -1,6 +1,10 @@
 package br.com.sw2you.realmeet.domain.entity;
 
+import static br.com.sw2you.realmeet.util.DateUtils.*;
+import static java.util.Objects.*;
+
 import br.com.sw2you.realmeet.domain.model.Employee;
+import br.com.sw2you.realmeet.util.DateUtils;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import javax.persistence.*;
@@ -46,6 +50,19 @@ public class Allocation {
     }
 
     public Allocation() {}
+
+    @PrePersist
+    public void prePersist() {
+        if (isNull(createdAt)) {
+            createdAt = now();
+        }
+        updatedAt = createdAt;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = now();
+    }
 
     public Long getId() {
         return id;
@@ -98,7 +115,7 @@ public class Allocation {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, room, employee, subject, startAt, endAt, createdAt, updatedAt);
+        return hash(id, room, employee, subject, startAt, endAt, createdAt, updatedAt);
     }
 
     @Override
