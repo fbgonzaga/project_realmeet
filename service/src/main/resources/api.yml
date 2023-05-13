@@ -119,6 +119,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AllocationDTO'
+        404:
+          description: Not Found
         422:
           $ref: '#/components/responses/UnprocessableEntity'
 
