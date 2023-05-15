@@ -7,6 +7,8 @@ public final class ValidatorConstants {
     public static final String ROOM_SEATS = "seats";
     public static final int ROOM_SEATS_MIN_VALUE = 1;
     public static final int ROOM_SEATS_MAX_VALUE = 20;
+    public static final String ALLOCATION_SUBJECT = "subject";
+    public static final int ALLOCATION_SUBJECT_MAX_LENGTH = 60;
 
     public static final String ALLOCATION_ID = "id";
     public static final String ALLOCATION_SUBJECT = "subject";
