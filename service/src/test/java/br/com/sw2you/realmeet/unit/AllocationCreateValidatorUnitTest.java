@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-public class AllocationValidatorUnitTest extends BaseUnitTest {
+public class AllocationCreateValidatorUnitTest extends BaseUnitTest {
     private AllocationValidator victim;
 
     @Mock
