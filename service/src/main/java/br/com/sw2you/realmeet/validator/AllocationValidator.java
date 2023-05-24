@@ -48,6 +48,16 @@ public class AllocationValidator {
         throwOnError(validationErrors);
     }
 
+    public void validate(Long allocationId, UpdateAllocationDTO updateAllocationDTO) {
+        var validationErrors = new ValidationErrors();
+
+        validateRequired(allocationId, ALLOCATION_ID, validationErrors);
+        validateSubject(updateAllocationDTO.getSubject(), validationErrors);
+        validateDates(updateAllocationDTO.getStartAt(), updateAllocationDTO.getEndAt(), validationErrors);
+
+        throwOnError(validationErrors);
+    }
+
     private void validateSubject(String subject, ValidationErrors validationErrors) {
         validateRequired(subject, ALLOCATION_SUBJECT, validationErrors);
         validateMaxLength(subject, ALLOCATION_SUBJECT, ALLOCATION_SUBJECT_MAX_LENGTH, validationErrors);
