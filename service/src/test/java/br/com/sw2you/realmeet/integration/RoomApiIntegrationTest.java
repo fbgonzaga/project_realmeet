@@ -1,8 +1,7 @@
 package br.com.sw2you.realmeet.integration;
 
 import static br.com.sw2you.realmeet.utils.TestConstants.*;
-import static br.com.sw2you.realmeet.utils.TestDataCreator.newCreateRoomDTO;
-import static br.com.sw2you.realmeet.utils.TestDataCreator.newRoomBuilder;
+import static br.com.sw2you.realmeet.utils.TestDataCreator.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import br.com.sw2you.realmeet.api.facade.RoomApi;
