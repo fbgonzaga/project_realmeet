@@ -7,16 +7,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import br.com.sw2you.realmeet.api.facade.AllocationApi;
 import br.com.sw2you.realmeet.core.BaseIntegrationTest;
-import br.com.sw2you.realmeet.domain.entity.Allocation;
 import br.com.sw2you.realmeet.domain.repository.AllocationRepository;
 import br.com.sw2you.realmeet.domain.repository.RoomRepository;
-import br.com.sw2you.realmeet.service.AllocationService;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.util.ReflectionTestUtils;
 
 class AllocationApiFilterIntegrationTest extends BaseIntegrationTest {
     @Autowired
@@ -27,9 +21,6 @@ class AllocationApiFilterIntegrationTest extends BaseIntegrationTest {
 
     @Autowired
     AllocationRepository allocationRepository;
-
-    @Autowired
-    private AllocationService allocationService;
 
     @Override
     protected void setupEach() throws Exception {
@@ -49,7 +40,7 @@ class AllocationApiFilterIntegrationTest extends BaseIntegrationTest {
             newAllocationBuilder(room).withSubject(DEFAULT_ALLOCATION_SUBJECT + 3).build()
         );
 
-        var allocationDTOList = api.listAllocations(TEST_CLIENT_API_KEY, null, null, null, null, null, null, null);
+        var allocationDTOList = api.listAllocations(null, null, null, null);
 
         assertEquals(3, allocationDTOList.size());
         assertEquals(allocation1.getSubject(), allocationDTOList.get(0).getSubject());
@@ -71,16 +62,7 @@ class AllocationApiFilterIntegrationTest extends BaseIntegrationTest {
             newAllocationBuilder(roomB).withSubject(DEFAULT_ALLOCATION_SUBJECT + 3).build()
         );
 
-        var allocationDTOList = api.listAllocations(
-            TEST_CLIENT_API_KEY,
-            null,
-            roomA.getId(),
-            null,
-            null,
-            null,
-            null,
-            null
-        );
+        var allocationDTOList = api.listAllocations(null, roomA.getId(), null, null);
 
         assertEquals(2, allocationDTOList.size());
         assertEquals(allocation1.getId(), allocationDTOList.get(0).getId());
@@ -97,16 +79,7 @@ class AllocationApiFilterIntegrationTest extends BaseIntegrationTest {
         var allocation2 = allocationRepository.saveAndFlush(newAllocationBuilder(room).withEmployee(employee1).build());
         allocationRepository.saveAndFlush(newAllocationBuilder(room).withEmployee(employee2).build());
 
-        var allocationDTOList = api.listAllocations(
-            TEST_CLIENT_API_KEY,
-            employee1.getEmail(),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        );
+        var allocationDTOList = api.listAllocations(employee1.getEmail(), null, null, null);
 
         assertEquals(2, allocationDTOList.size());
         assertEquals(allocation1.getId(), allocationDTOList.get(0).getId());
@@ -133,48 +106,10 @@ class AllocationApiFilterIntegrationTest extends BaseIntegrationTest {
                 .build()
         );
 
-        var allocationDTOList = api.listAllocations(
-            TEST_CLIENT_API_KEY,
-            null,
-            null,
-            baseStartAt.toLocalDate(),
-            baseEndAt.toLocalDate(),
-            null,
-            null,
-            null
-        );
+        var allocationDTOList = api.listAllocations(null, null, baseStartAt.toLocalDate(), baseEndAt.toLocalDate());
 
         assertEquals(2, allocationDTOList.size());
         assertEquals(allocation1.getId(), allocationDTOList.get(0).getId());
         assertEquals(allocation2.getId(), allocationDTOList.get(1).getId());
-    }
-
-    @Test
-    void testFilterAllocationUsingPagination() {
-        persistAllocations(15);
-        ReflectionTestUtils.setField(allocationService, "maxLimit", 10);
-
-        var allocationListPage1 = api.listAllocations(TEST_CLIENT_API_KEY, null, null, null, null, null, null, 0);
-        assertEquals(10, allocationListPage1.size());
-
-        var allocationListPage2 = api.listAllocations(TEST_CLIENT_API_KEY, null, null, null, null, null, null, 1);
-        assertEquals(5, allocationListPage2.size());
-    }
-
-    private void persistAllocations(int numberOfAllocations) {
-        var room = roomRepository.saveAndFlush(newRoomBuilder().build());
-
-        IntStream
-            .range(0, numberOfAllocations)
-            .forEach(
-                i ->
-                    allocationRepository.saveAndFlush(
-                        newAllocationBuilder(room)
-                            .withSubject(DEFAULT_ALLOCATION_SUBJECT + "_" + (i + 1))
-                            .withStartAt(DEFAULT_ALLOCATION_START_AT.plusHours(i + 1))
-                            .withEndAt(DEFAULT_ALLOCATION_END_AT.plusHours(i + 1))
-                            .build()
-                    )
-            );
     }
 }
