@@ -49,4 +49,8 @@ public final class TestDataCreator {
             .startAt(DEFAULT_ALLOCATION_START_AT)
             .endAt(DEFAULT_ALLOCATION_END_AT);
     }
+
+    public static Employee.Builder newEmployeeBuilder() {
+        return Employee.newBuilder().withName(DEFAULT_EMPLOYEE_NAME).withEmail(DEFAULT_EMPLOYEE_EMAIL);
+    }
 }
