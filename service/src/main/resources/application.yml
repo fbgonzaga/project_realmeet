@@ -26,3 +26,10 @@ logging:
   level:
     org.springframework: INFO
     org.flywaydb: INFO
+
+# =================================
+# = RealMeet
+# =================================
+realmeet:
+  allocations:
+    maxFilterLimit: 50
