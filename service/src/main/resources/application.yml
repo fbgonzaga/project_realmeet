@@ -14,10 +14,20 @@ spring:
     active: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3300/realmeet?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: root
+    url:
+    username:
+    password:
     type: com.zaxxer.hikari.HikariDataSource
+  mail:
+    host: smtp.gmail.com
+    username:
+    password:
+    from: 
+    properties:
+      mail.transport.protocol: smtp
+      mail.smtp.port: 587
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
 
 # =================================
 # = Logging
