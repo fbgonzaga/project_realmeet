@@ -15,14 +15,14 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3300/realmeet?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
-    username:
-    password: 
+    username: root
+    password: root
     type: com.zaxxer.hikari.HikariDataSource
   mail:
     host: smtp.gmail.com
-    username:
-    password:
-    from:
+    username: fbgonzaga@gmail.com
+    password: fxhgabrxqqzpkgnj
+    from: fbgonzaga@gmail.com
     properties:
       mail.transport.protocol: smtp
       mail.smtp.port: 587
@@ -46,14 +46,14 @@ realmeet:
   email:
     templates:
       allocationCreated:
-        subject: New room booking created
+        subject: Novo agendamento de sala criado
         templateName: allocation-created.html
       allocationUpdated:
-        subject: Room booking modified
+        subject: Agendamento de sala alterado
         templateName: allocation-updated.html
       allocationDeleted:
-        subject: Room booking deleted
+        subject: Agendamento de sala excluído
         templateName: allocation-deleted.html
       allocationReport:
-        subject: Room booking report
+        subject: Relatório de agendamento de sala
         templateName: allocation-report.html
