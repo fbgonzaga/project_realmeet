@@ -15,8 +15,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3300/realmeet?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
-    username:
-    password: 
+    username: root
+    password: root
     type: com.zaxxer.hikari.HikariDataSource
   mail:
     host: smtp.gmail.com
