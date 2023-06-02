@@ -4,19 +4,19 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<h2>O agendamento de sala foi excluído com sucesso!</h2>
-<h3>Funcionário Responsável</h3>
+<h2>The room allocation was successfully deleted!</h2>
+<h3>Responsible Employee</h3>
 <ul>
-  <li><b>Nome:</b> <span th:text="${allocation.employee.name}"></span></li>
-  <li><b>E-mail:</b> <span th:text="${allocation.employee.email}"></span></li>
+  <li><b>Name:</b> <span th:text="${allocation.employee.name}"></span></li>
+  <li><b>Email:</b> <span th:text="${allocation.employee.email}"></span></li>
 </ul>
-<h3>Dados do Agendamento</h3>
+<h3>Allocation Details</h3>
 <ul>
-  <li><b>Sala:</b> <span th:text="${allocation.room.name}"></span></li>
-  <li><b>Lugares disponíveis:</b> <span th:text="${allocation.room.seats}"></span></li>
-  <li><b>Tema:</b> <span th:text="${allocation.subject}"></span></li>
-  <li><b>Data de início:</b> <span th:text="${#temporals.format(allocation.startAt, 'dd-MM-yyyy HH:mm')}"></span></li>
-  <li><b>Data de fim:</b> <span th:text="${#temporals.format(allocation.endAt, 'dd-MM-yyyy HH:mm')}"></span></li>
+  <li><b>Room:</b> <span th:text="${allocation.room.name}"></span></li>
+  <li><b>Available Seats:</b> <span th:text="${allocation.room.seats}"></span></li>
+  <li><b>Subject:</b> <span th:text="${allocation.subject}"></span></li>
+  <li><b>Start Date:</b> <span th:text="${#temporals.format(allocation.startAt, 'dd-MM-yyyy HH:mm')}"></span></li>
+  <li><b>End Date:</b> <span th:text="${#temporals.format(allocation.endAt, 'dd-MM-yyyy HH:mm')}"></span></li>
 </ul>
 </body>
 </html>
