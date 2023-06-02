@@ -1,11 +1,8 @@
 # RealMeet
 
-Realmeet is a Java application developed using Spring and Spring Boot, with a foundation in the principles of Domain-Driven Design. It is specifically designed to effectively handle the allocation of rooms to users, ensuring optimal management and organization.
-
 ## Main technologies
 
 ### Project Basic Elements
-Java <br/>
 Maven <br/>
 OpenAPI (for writing endpoints) <br/>
 MapStruct (for DTO mapping) <br/>
